@@ -1,6 +1,5 @@
 from loguru import logger
 
-from app.config.apm import init_apm
 from app.config.bootstrap import create_app
 from app.config.db import close_connection_database, connect_to_database
 from app.config.jwt import exception_jwt, init_jwt
@@ -10,7 +9,6 @@ from app.config.routers import init_routers
 app = create_app()
 
 init_middlewares(app)
-init_apm(app)
 
 
 @app.on_event("startup")

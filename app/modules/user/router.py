@@ -5,7 +5,7 @@ from fastapi_pagination import Page, paginate
 from app.abstracts.usecase_exception import UseCaseException
 from app.config.settings import get_settings
 from app.modules.core.auth_bearer import JWTBearer
-from app.modules.core.logging import LoggingUnder
+from app.modules.core.logging import LoggingSkeleton
 from app.modules.user import schema, usecase
 from app.modules.user.repository import UserRepository
 
@@ -21,7 +21,7 @@ user_repository: UserRepository = UserRepository()
     description="Router to list all users registered",
     response_model=Page[schema.GetUserSchema],
     status_code=status.HTTP_200_OK,
-    dependencies=[Depends(JWTBearer()), Depends(LoggingUnder())],
+    dependencies=[Depends(JWTBearer()), Depends(LoggingSkeleton())],
 )
 async def get_users():
     users = await usecase.GetUsersUseCase(user_repository).execute()

@@ -1,13 +1,14 @@
 import httpx
 from fastapi import HTTPException, status
 
+from app.abstracts.adapter_exception import AdapterException
 from app.config.settings import get_settings
 from app.interfaces.request_interface import RequestInterface
 
 settings = get_settings()
 
 
-class RequestHttpx(RequestInterface):
+class HttpxAdapter(RequestInterface):
     def __init__(self):
         self._client = httpx.AsyncClient(timeout=httpx.Timeout(5.0))
 
@@ -15,8 +16,8 @@ class RequestHttpx(RequestInterface):
         try:
             response = await self._client.request(method, url, **kwargs)
             return response
-        except httpx.RequestError as e:
-            raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail=str(e))
+        except httpx.RequestError as err:
+            raise AdapterException(str(err))
 
     async def async_get(self, url: str, **kwargs):
         response = await self._client.get(url, **kwargs)
@@ -39,8 +40,8 @@ class RequestHttpx(RequestInterface):
         try:
             response = httpx.request(method, url, **kwargs)
             return response
-        except httpx.RequestError as e:
-            raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail=str(e))
+        except httpx.RequestError as err:
+            raise AdapterException(str(err))
 
     @staticmethod
     def get(url: str, **kwargs):

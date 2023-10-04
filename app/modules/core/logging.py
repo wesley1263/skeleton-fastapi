@@ -6,7 +6,7 @@ from uuid import uuid4
 from fastapi import Request
 
 
-class LoggingUnder:
+class LoggingSkeleton:
     def __init__(self):
         self.logger = logging
         self.logger.basicConfig(
