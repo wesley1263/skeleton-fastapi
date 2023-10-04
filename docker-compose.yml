@@ -1,0 +1,17 @@
+version: '3.2'
+
+services:
+  db:
+    container_name: db-under
+    image: mysql:8.0.29
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: orbit
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: 123456qw
+    ports:
+      - "3306:3306"
+    volumes:
+      - ../mysql-local:/var/lib/mysql
