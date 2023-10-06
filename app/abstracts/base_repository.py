@@ -1,10 +1,15 @@
-from tortoise import Model
+from typing import TypeVar
+
 from tortoise.exceptions import BaseORMException
 
+from app.interfaces.repository_interface import RepositoryInterface
 
-class BaseRepository:
-    def __init__(self):
-        self.entity = Model
+T = TypeVar("T")
+
+
+class BaseRepository(RepositoryInterface):
+    def __init__(self, model: T):
+        self.entity = model
 
     async def create(self, payload: dict):
         return await self.entity.create(**payload)
@@ -18,6 +23,9 @@ class BaseRepository:
 
     async def get_all(self) -> list:
         return await self.entity.all()
+
+    async def get_one_by(self, **kwargs) -> [dict, None]:
+        return await self.entity.get_or_none(**kwargs)
 
     async def get_by_id(self, id: int) -> [dict, None]:
         return await self.entity.get_or_none(id=id)

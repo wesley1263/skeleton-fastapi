@@ -8,16 +8,16 @@ from app.modules.core.messages_enum import MessagesEnum
 
 
 class CreateUserUseCase(BaseUseCase):
-    def __init__(self, payload: BaseModel, repository: BaseRepository, schema: BaseModel):
+    def __init__(
+        self, payload: BaseModel, repository: BaseRepository, schema: BaseModel
+    ):
         super().__init__(payload, repository)
         self._schema = schema
 
     async def _validate_email(self):
         user = await self._repository.get_by_email(self._payload.email)
         if user:
-            raise UseCaseException(
-                MessagesEnum.EMAIL_ALREADY_EXIST, 400
-            )
+            raise UseCaseException(MessagesEnum.EMAIL_ALREADY_EXIST, 400)
 
     async def execute(self):
         await self._validate_email()

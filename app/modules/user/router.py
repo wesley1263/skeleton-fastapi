@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi_jwt_auth import AuthJWT
 from fastapi_pagination import Page, paginate
 
@@ -49,7 +49,9 @@ async def get_user(id: int):
 async def post_user(payload: schema.PostUserSchema):
     try:
         _schema = schema.GetUserSchema
-        return await usecase.CreateUserUseCase(payload, user_repository, _schema).execute()
+        return await usecase.CreateUserUseCase(
+            payload, user_repository, _schema
+        ).execute()
     except UseCaseException as err:
         raise HTTPException(detail=str(err), status_code=err.status_code)
 
