@@ -1,10 +1,10 @@
-from app.abstracts.base_repository import BaseRepository
+from app.interfaces.repository_interface import RepositoryInterface
 
 from .. import schema
 
 
 class GetUsersUseCase:
-    def __init__(self, repository: BaseRepository):
+    def __init__(self, repository: RepositoryInterface):
         self._repository = repository
 
     async def _serializer(self, user):

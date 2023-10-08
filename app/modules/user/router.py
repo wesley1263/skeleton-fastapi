@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi_jwt_auth import AuthJWT
 from fastapi_pagination import Page, paginate
+from passlib.hash import pbkdf2_sha256
 
-from app.abstracts.usecase_exception import UseCaseException
 from app.config.settings import get_settings
+from app.exceptions.usecase_exception import UseCaseException
 from app.modules.core.auth_bearer import JWTBearer
 from app.modules.core.logging import LoggingSkeleton
 from app.modules.user import schema, usecase
@@ -36,7 +37,10 @@ async def get_users():
     dependencies=[Depends(JWTBearer())],
 )
 async def get_user(id: int):
-    return await usecase.GetUserUseCase(id, user_repository).execute()
+    try:
+        return await usecase.GetUserUseCase(id, user_repository).execute()
+    except UseCaseException as err:
+        raise HTTPException(detail=str(err), status_code=err.status_code)
 
 
 @router.post(
@@ -64,7 +68,10 @@ async def post_user(payload: schema.PostUserSchema):
     dependencies=[Depends(JWTBearer())],
 )
 async def get_user_by_email(email: str):
-    return await usecase.GetUserByEmailUseCase(email, user_repository).execute()
+    try:
+        return await usecase.GetUserByEmailUseCase(email, user_repository).execute()
+    except UseCaseException as err:
+        raise HTTPException(detail=str(err), status_code=err.status_code)
 
 
 @router.put(
@@ -75,7 +82,12 @@ async def get_user_by_email(email: str):
     dependencies=[Depends(JWTBearer()), Depends(JWTBearer())],
 )
 async def put_user(id: int, payload: schema.UpdateUserSchema):
-    return await usecase.UpdateUserUseCase(payload, id, user_repository).execute()
+    try:
+        return await usecase.UpdateUserUseCase(
+            payload, id, user_repository, schema.GetUserSchema
+        ).execute()
+    except UseCaseException as err:
+        raise HTTPException(detail=str(err), status_code=err.status_code)
 
 
 @router.post(
@@ -85,7 +97,12 @@ async def put_user(id: int, payload: schema.UpdateUserSchema):
     description="This router is to login user",
 )
 async def login(payload: schema.LoginUserSchema, authorize: AuthJWT = Depends()):
-    return await usecase.LoginUseCase(payload, authorize, user_repository).execute()
+    try:
+        return await usecase.LoginUseCase(
+            payload, user_repository, schema.JWTUserSchema, authorize, pbkdf2_sha256
+        ).execute()
+    except UseCaseException as err:
+        raise HTTPException(detail=str(err), status_code=err.status_code)
 
 
 @router.post(

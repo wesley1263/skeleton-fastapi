@@ -1,27 +1,34 @@
-from fastapi import HTTPException
-from fastapi_jwt_auth import AuthJWT
-from passlib.hash import pbkdf2_sha256
+from typing import TypeVar
 
-from app.abstracts.base_repository import BaseRepository
+from pydantic import BaseModel
+
+from app.abstracts.base_usecase import BaseUseCase
+from app.exceptions.usecase_exception import UseCaseException
+from app.interfaces.repository_interface import RepositoryInterface
 from app.modules.core.messages_enum import MessagesEnum
 from app.modules.user import schema
 
+T = TypeVar("T")
+P = TypeVar("P")
 
-class LoginUseCase:
+
+class LoginUseCase(BaseUseCase):
     def __init__(
-        self,
-        payload: schema.LoginUserSchema,
-        authorize: AuthJWT,
-        repository: BaseRepository,
+            self,
+            payload: BaseModel,
+            repository: RepositoryInterface,
+            schema: BaseModel,
+            authorize: T,
+            hash_pass: P,
     ):
-        self._payload = payload
-        self._repository = repository
+        super().__init__(payload, repository, schema)
         self._authorize = authorize
+        self._hash_pass = hash_pass
 
     async def _validate(self):
-        user = await self._repository.get_by_email(self._payload.email)
+        user = await self._repository.get_one_by(email=self._payload.email)
         if not user:
-            raise HTTPException(status_code=404, detail=MessagesEnum.USER_NOT_FOUND)
+            raise UseCaseException(MessagesEnum.USER_NOT_FOUND.value, 404)
         return user
 
     async def _serializer(self, user):
@@ -33,7 +40,7 @@ class LoginUseCase:
 
     async def execute(self):
         user = await self._validate()
-        if not pbkdf2_sha256.verify(self._payload.password, user.password):
-            raise HTTPException(status_code=400, detail=MessagesEnum.INVALID_PASSWORD)
+        if not self._hash_pass.verify(self._payload.password, user.password):
+            raise UseCaseException(MessagesEnum.INVALID_PASSWORD.value, 400)
         user_serialized = await self._serializer(user)
-        return schema.JWTUserSchema(**user_serialized)
+        return self._schema(**user_serialized)

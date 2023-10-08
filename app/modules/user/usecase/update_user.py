@@ -1,33 +1,30 @@
-from fastapi import HTTPException
 from passlib.hash import pbkdf2_sha256
+from pydantic import BaseModel
 
-from app.abstracts.base_repository import BaseRepository
+from app.abstracts.base_usecase import BaseUseCase
+from app.exceptions.usecase_exception import UseCaseException
+from app.interfaces.repository_interface import RepositoryInterface
 from app.modules.core.messages_enum import MessagesEnum
-from app.modules.user import schema
 
 
-class UpdateUserUseCase:
+class UpdateUserUseCase(BaseUseCase):
     def __init__(
-        self, payload: schema.UpdateUserSchema, id: int, repository: BaseRepository
+        self,
+        payload: BaseModel,
+        id: int,
+        repository: RepositoryInterface,
+        schema: BaseModel,
     ):
+        super().__init__(payload, repository, schema)
         self._id = id
-        self._payload = payload
-        self._repository = repository
-
-    async def _validate(self):
-        user = await self._repository.get_by_id(self._id)
-        if not user:
-            raise HTTPException(status_code=404, detail=MessagesEnum.USER_NOT_FOUND)
 
     async def _validate_email(self):
-        user = await self._repository.get_by_email(self._payload.email)
+        user = await self._repository.get_one_by(email=self._payload.email)
         if user and user.id != self._id:
-            raise HTTPException(
-                status_code=400, detail=MessagesEnum.EMAIL_ALREADY_EXIST
-            )
+            raise UseCaseException(MessagesEnum.EMAIL_ALREADY_EXIST.value, 400)
 
     async def execute(self):
-        await self._validate()
+        await self._validate_db(detail_message=MessagesEnum.USER_NOT_FOUND.value, id=self._id)
         await self._validate_email()
 
         user_payload = self._payload.dict()
@@ -35,7 +32,7 @@ class UpdateUserUseCase:
 
         updated = await self._repository.update(user_payload, self._id)
         if not updated:
-            raise HTTPException(status_code=400, detail=MessagesEnum.USER_NOT_UPDATED)
+            raise UseCaseException(MessagesEnum.USER_NOT_UPDATED.value, 400)
         result = await self._repository.get_by_id(self._id)
 
-        return schema.GetUserSchema.from_orm(result)
+        return self._schema.from_orm(result)

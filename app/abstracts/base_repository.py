@@ -1,14 +1,11 @@
-from typing import TypeVar
-
+from tortoise import Model
 from tortoise.exceptions import BaseORMException
 
 from app.interfaces.repository_interface import RepositoryInterface
 
-T = TypeVar("T")
 
-
-class BaseRepository(RepositoryInterface):
-    def __init__(self, model: T):
+class AbstractTortoiseRepository(RepositoryInterface):
+    def __init__(self, model: Model):
         self.entity = model
 
     async def create(self, payload: dict):

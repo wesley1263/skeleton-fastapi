@@ -1,18 +1,19 @@
 from decouple import config
 from passlib.hash import pbkdf2_sha256
 
-from app.abstracts.base_repository import BaseRepository
+from app.interfaces.repository_interface import RepositoryInterface
 from app.modules.user.schema import PostUserSchema
 
 
 class CreateUserAdminUseCase:
-    def __init__(self, repository: BaseRepository):
+    def __init__(self, repository: RepositoryInterface):
         self._repository = repository
         self._create_admin_user = config("CREATE_ADMIN", default=False, cast=bool)
 
     async def _validate(self):
-        if self._create_admin_user and not await self._repository.get_by_email(
-            config("EMAIL_ADMIN")
+        _email_admin = config("EMAIL_ADMIN")
+        if self._create_admin_user and not await self._repository.get_one_by(
+            email=_email_admin
         ):
             return PostUserSchema(
                 email=config("EMAIL_ADMIN"),
