@@ -18,9 +18,9 @@ class Setting(BaseSettings):
     TESTING: bool = config("TESTING", default=False, cast=bool)
     EMAIL_ADMIN: str = config("EMAIL_ADMIN")
     PASSWORD_ADMIN: str = config("PASSWORD_ADMIN")
-    DB_URL = config("DB_URL")
-    DB_TEST_URL = config("DB_TEST_URL")
-    GENERATE_SCHEMAS = config("GENERATE_SCHEMAS")
+    DB_URL: str = config("DB_URL")
+    DB_TEST_URL: str = config("DB_TEST_URL")
+    GENERATE_SCHEMAS: str = config("GENERATE_SCHEMAS")
     ALLOW_HEADERS: List = ["*"]
     ALLOW_METHODS: List = ["*"]
     ORIGINS: List = [
