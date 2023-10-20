@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class RequestInterface(ABC):
+class IRequest(ABC):
     @abstractmethod
     def request(self, url: str, method: str, **kwargs):
         pass

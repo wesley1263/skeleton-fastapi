@@ -1,12 +1,12 @@
 from decouple import config
 from passlib.hash import pbkdf2_sha256
 
-from app.interfaces.repository_interface import RepositoryInterface
+from app.interfaces.repository import IRepository
 from app.modules.user.schema import PostUserSchema
 
 
 class CreateUserAdminUseCase:
-    def __init__(self, repository: RepositoryInterface):
+    def __init__(self, repository: IRepository):
         self._repository = repository
         self._create_admin_user = config("CREATE_ADMIN", default=False, cast=bool)
 

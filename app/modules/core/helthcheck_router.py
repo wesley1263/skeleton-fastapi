@@ -6,7 +6,7 @@ router = APIRouter()
 
 
 @router.get(
-    "/health-check",
+    "/healthz",
     description="Router to check helth application",
     dependencies=[Depends(LoggingSkeleton())],
 )

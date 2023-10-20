@@ -16,7 +16,7 @@ TORTOISE_ORM = {
     "connections": {"default": settings.DB_URL},
     "apps": {
         "models": {
-            "models": settings.MODELS,
+            "models": settings.ENTITIES,
             "default_connection": "default",
         },
     },
@@ -29,7 +29,7 @@ def init_db(app: FastAPI):
         app=app,
         db_url=settings.DB_URL if not settings.TESTING else settings.DB_TEST_URL,
         generate_schemas=settings.GENERATE_SCHEMAS,
-        modules={"models": settings.MODELS},
+        modules={"models": settings.ENTITIES},
     )
 
 
@@ -37,7 +37,7 @@ async def connect_to_database() -> None:
     log.info("Initialize Tortoise...")
     await Tortoise.init(
         db_url=settings.DB_URL,
-        modules={"models": settings.MODELS},
+        modules={"models": settings.ENTITIES},
     )
 
 

@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class RepositoryInterface(ABC):
+class IRepository(ABC):
     @abstractmethod
     async def get_all(self):
         pass

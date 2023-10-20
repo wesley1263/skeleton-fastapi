@@ -1,16 +1,16 @@
-from abc import ABCMeta, abstractmethod
+from abc import abstractmethod, ABC
 
 from pydantic import BaseModel
 
-from app.exceptions.usecase_exception import UseCaseException
-from app.interfaces.repository_interface import RepositoryInterface
+from app.exceptions.usecase import UseCaseException
+from app.interfaces.repository import IRepository
 
 
-class BaseUseCase(metaclass=ABCMeta):
+class BaseUseCase(ABC):
     def __init__(
         self,
         payload: BaseModel,
-        repository: RepositoryInterface,
+        repository: IRepository,
         schema: BaseModel = None,
     ):
         self._payload = payload
