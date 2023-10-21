@@ -3,13 +3,15 @@ from pydantic import BaseModel
 
 from app.abstracts.base_usecase import BaseUseCase
 from app.exceptions.usecase import UseCaseException
-from app.interfaces.repository import IRepository
+from app.interfaces.crud_repository import ICRUDRepository
 
 from ..enums import UserEnum
 
 
 class CreateUserUseCase(BaseUseCase):
-    def __init__(self, payload: BaseModel, repository: IRepository, schema: BaseModel):
+    def __init__(
+        self, payload: BaseModel, repository: ICRUDRepository, schema: BaseModel
+    ):
         super().__init__(payload, repository, schema)
 
     async def _validate_email(self):

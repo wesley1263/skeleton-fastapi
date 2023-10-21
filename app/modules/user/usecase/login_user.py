@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 from app.abstracts.base_usecase import BaseUseCase
 from app.exceptions.usecase import UseCaseException
-from app.interfaces.repository import IRepository
+from app.interfaces.crud_repository import ICRUDRepository
 from app.modules.user.enums import UserEnum
 
 T = TypeVar("T")
@@ -15,7 +15,7 @@ class LoginUseCase(BaseUseCase):
     def __init__(
         self,
         payload: BaseModel,
-        repository: IRepository,
+        repository: ICRUDRepository,
         schema: BaseModel,
         authorize: T,
         hash_pass: P,

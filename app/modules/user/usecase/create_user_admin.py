@@ -2,12 +2,12 @@ from decouple import config
 from passlib.hash import pbkdf2_sha256
 from pydantic import BaseModel
 
-from app.interfaces.repository import IRepository
+from app.interfaces.crud_repository import ICRUDRepository
 from app.modules.user.schema import PostUserSchema
 
 
 class CreateUserAdminUseCase:
-    def __init__(self, repository: IRepository, schema: BaseModel):
+    def __init__(self, repository: ICRUDRepository, schema: BaseModel):
         self._repository = repository
         self._create_admin_user = config("CREATE_ADMIN", default=False, cast=bool)
         self._schema = schema
