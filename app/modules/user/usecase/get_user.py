@@ -1,13 +1,13 @@
 from pydantic import BaseModel
 
 from app.exceptions.usecase import UseCaseException
-from app.interfaces.repository import IRepository
+from app.interfaces.crud_repository import ICRUDRepository
 
 from ..enums import UserEnum
 
 
 class GetUserUseCase:
-    def __init__(self, id: int, repository: IRepository, schema: BaseModel):
+    def __init__(self, id: int, repository: ICRUDRepository, schema: BaseModel):
         self._id = id
         self._repository = repository
         self._schema = schema

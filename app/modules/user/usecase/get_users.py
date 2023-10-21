@@ -1,12 +1,12 @@
 from pydantic import BaseModel
 
-from app.interfaces.repository import IRepository
+from app.interfaces.crud_repository import ICRUDRepository
 
 from .. import schema
 
 
 class GetUsersUseCase:
-    def __init__(self, repository: IRepository, schema: BaseModel):
+    def __init__(self, repository: ICRUDRepository, schema: BaseModel):
         self._repository = repository
         self._schema = schema
 

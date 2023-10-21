@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi_jwt_auth import AuthJWT
 from fastapi_pagination import Page, paginate
+from fastapi_pagination.utils import disable_installed_extensions_check
 from passlib.hash import pbkdf2_sha256
 
 from app.config.settings import get_settings
@@ -9,6 +10,8 @@ from app.modules.core.auth_bearer import JWTBearer
 from app.modules.core.logging import LoggingSkeleton
 from app.modules.user import schema, usecase
 from app.modules.user.repository import UserRepository
+
+disable_installed_extensions_check()
 
 router = APIRouter()
 
@@ -84,7 +87,7 @@ async def get_user_by_email(email: str):
     description="This router is to update user",
     status_code=status.HTTP_200_OK,
     response_model=schema.GetUserSchema,
-    dependencies=[Depends(JWTBearer()), Depends(JWTBearer())],
+    dependencies=[Depends(JWTBearer())],
 )
 async def put_user(id: int, payload: schema.UpdateUserSchema):
     try:
@@ -116,5 +119,7 @@ async def login(payload: schema.LoginUserSchema, authorize: AuthJWT = Depends())
     description="This router is to create admin user",
 )
 async def create_admim():
-    await usecase.CreateUserAdminUseCase(user_repository, schema.PostUserSchema).execute()
+    await usecase.CreateUserAdminUseCase(
+        user_repository, schema.PostUserSchema
+    ).execute()
     return {"message": "Admin user created"}

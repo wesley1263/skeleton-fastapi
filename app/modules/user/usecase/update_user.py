@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 from app.abstracts.base_usecase import BaseUseCase
 from app.exceptions.usecase import UseCaseException
-from app.interfaces.repository import IRepository
+from app.interfaces.crud_repository import ICRUDRepository
 from app.modules.core.messages_enum import MessagesEnum
 
 
@@ -12,7 +12,7 @@ class UpdateUserUseCase(BaseUseCase):
         self,
         payload: BaseModel,
         id: int,
-        repository: IRepository,
+        repository: ICRUDRepository,
         schema: BaseModel,
     ):
         super().__init__(payload, repository, schema)
