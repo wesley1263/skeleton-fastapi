@@ -1,7 +1,7 @@
 from loguru import logger
 
 from app.config.bootstrap import create_app
-from app.config.db import close_connection_database, connect_to_database
+from app.config.database import close_connection_database, connect_to_database
 from app.config.jwt import exception_jwt, init_jwt
 from app.config.middlewares import init_middlewares
 from app.config.routers import init_routers

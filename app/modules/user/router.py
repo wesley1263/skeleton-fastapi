@@ -4,7 +4,7 @@ from fastapi_pagination import Page, paginate
 from passlib.hash import pbkdf2_sha256
 
 from app.config.settings import get_settings
-from app.exceptions.usecase_exception import UseCaseException
+from app.exceptions.usecase import UseCaseException
 from app.modules.core.auth_bearer import JWTBearer
 from app.modules.core.logging import LoggingSkeleton
 from app.modules.user import schema, usecase
@@ -25,7 +25,9 @@ user_repository: UserRepository = UserRepository()
     dependencies=[Depends(JWTBearer()), Depends(LoggingSkeleton())],
 )
 async def get_users():
-    users = await usecase.GetUsersUseCase(user_repository).execute()
+    users = await usecase.GetUsersUseCase(
+        user_repository, schema.GetUserSchema
+    ).execute()
     return paginate(users)
 
 
@@ -38,7 +40,9 @@ async def get_users():
 )
 async def get_user(id: int):
     try:
-        return await usecase.GetUserUseCase(id, user_repository).execute()
+        return await usecase.GetUserUseCase(
+            id, user_repository, schema.GetUserSchema
+        ).execute()
     except UseCaseException as err:
         raise HTTPException(detail=str(err), status_code=err.status_code)
 
@@ -52,9 +56,8 @@ async def get_user(id: int):
 )
 async def post_user(payload: schema.PostUserSchema):
     try:
-        _schema = schema.GetUserSchema
         return await usecase.CreateUserUseCase(
-            payload, user_repository, _schema
+            payload, user_repository, schema.GetUserSchema
         ).execute()
     except UseCaseException as err:
         raise HTTPException(detail=str(err), status_code=err.status_code)
@@ -69,7 +72,9 @@ async def post_user(payload: schema.PostUserSchema):
 )
 async def get_user_by_email(email: str):
     try:
-        return await usecase.GetUserByEmailUseCase(email, user_repository).execute()
+        return await usecase.GetUserByEmailUseCase(
+            email, user_repository, schema.GetUserSchema
+        ).execute()
     except UseCaseException as err:
         raise HTTPException(detail=str(err), status_code=err.status_code)
 
@@ -111,5 +116,5 @@ async def login(payload: schema.LoginUserSchema, authorize: AuthJWT = Depends())
     description="This router is to create admin user",
 )
 async def create_admim():
-    await usecase.CreateUserAdminUseCase(user_repository).execute()
+    await usecase.CreateUserAdminUseCase(user_repository, schema.PostUserSchema).execute()
     return {"message": "Admin user created"}

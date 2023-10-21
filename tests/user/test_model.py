@@ -1,4 +1,4 @@
-from tortoise import Model
+from pydantic import BaseModel
 
 from app.modules.user.model import User
 
@@ -7,7 +7,7 @@ def test_user_model_should_return_valid_instance_when_valid_data_is_passed(
     user_fake_dict,
 ):
     user = User(**user_fake_dict)
-    assert isinstance(user, Model)
+    assert isinstance(user, BaseModel)
 
 
 def test_user_model_should_return_valid_fields_when_valid_data_is_passed(

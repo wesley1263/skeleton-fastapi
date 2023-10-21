@@ -26,16 +26,12 @@ class Setting(BaseSettings):
     ORIGINS: List = [
         "http://localhost",
         "http://localhost:8080",
+        "http://localhost:3000",
     ]
-    MODELS: List = [
+    ENTITIES: List = [
         "aerich.models",
-        "app.modules.user.model",
+        "app.modules.user.entity",
     ]
-
-    APM_SERVER_URL: str = config("APM_SERVER_URL", "http://10.16.17.213:8200")
-    APM_GLOBAL_LABELS: str = config(
-        "APM_GLOBAL_LABELS", "platform=FastAPI, application=SkeletonProd"
-    )
 
 
 @lru_cache()

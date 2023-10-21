@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from starlette.testclient import TestClient
 from tortoise.contrib.starlette import register_tortoise
 
-from app.config.db import connect_to_database
+from app.config.database import connect_to_database
 from app.config.jwt import init_jwt
 from app.config.middlewares import init_middlewares
 from app.config.routers import init_routers
@@ -40,7 +40,7 @@ def test_app_with_db():
     register_tortoise(
         app,
         db_url=setting.DB_TEST_URL,
-        modules={"models": setting.MODELS},
+        modules={"models": setting.ENTITIES},
         generate_schemas=True,
     )
     with TestClient(app) as test_client:

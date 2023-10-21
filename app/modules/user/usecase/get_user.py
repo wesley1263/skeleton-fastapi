@@ -1,21 +1,23 @@
-from app.exceptions.usecase_exception import UseCaseException
-from app.interfaces.repository_interface import RepositoryInterface
-from app.modules.core.messages_enum import MessagesEnum
+from pydantic import BaseModel
 
-from .. import schema
+from app.exceptions.usecase import UseCaseException
+from app.interfaces.repository import IRepository
+
+from ..enums import UserEnum
 
 
 class GetUserUseCase:
-    def __init__(self, id: int, repository: RepositoryInterface):
+    def __init__(self, id: int, repository: IRepository, schema: BaseModel):
         self._id = id
         self._repository = repository
+        self._schema = schema
 
     async def _validate(self):
         user = await self._repository.get_by_id(self._id)
         if not user:
-            raise UseCaseException(MessagesEnum.USER_NOT_FOUND.value, 404)
+            raise UseCaseException(UserEnum.USER_NOT_FOUND.value, 404)
         return user
 
-    async def execute(self):
+    async def execute(self) -> BaseModel:
         user = await self._validate()
-        return schema.GetUserSchema.from_orm(user)
+        return self._schema(**user.dict())
