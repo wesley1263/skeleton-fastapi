@@ -1,5 +1,4 @@
 import httpx
-from fastapi import HTTPException, status
 
 from app.abstracts.adapter_exception import AdapterException
 from app.config.settings import get_settings

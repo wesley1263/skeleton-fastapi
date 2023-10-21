@@ -25,7 +25,9 @@ user_repository: UserRepository = UserRepository()
     dependencies=[Depends(JWTBearer()), Depends(LoggingSkeleton())],
 )
 async def get_users():
-    users = await usecase.GetUsersUseCase(user_repository, schema.GetUserSchema).execute()
+    users = await usecase.GetUsersUseCase(
+        user_repository, schema.GetUserSchema
+    ).execute()
     return paginate(users)
 
 
@@ -38,7 +40,9 @@ async def get_users():
 )
 async def get_user(id: int):
     try:
-        return await usecase.GetUserUseCase(id, user_repository, schema.GetUserSchema).execute()
+        return await usecase.GetUserUseCase(
+            id, user_repository, schema.GetUserSchema
+        ).execute()
     except UseCaseException as err:
         raise HTTPException(detail=str(err), status_code=err.status_code)
 
@@ -68,7 +72,9 @@ async def post_user(payload: schema.PostUserSchema):
 )
 async def get_user_by_email(email: str):
     try:
-        return await usecase.GetUserByEmailUseCase(email, user_repository, schema.GetUserSchema).execute()
+        return await usecase.GetUserByEmailUseCase(
+            email, user_repository, schema.GetUserSchema
+        ).execute()
     except UseCaseException as err:
         raise HTTPException(detail=str(err), status_code=err.status_code)
 
@@ -110,5 +116,5 @@ async def login(payload: schema.LoginUserSchema, authorize: AuthJWT = Depends())
     description="This router is to create admin user",
 )
 async def create_admim():
-    await usecase.CreateUserAdminUseCase(user_repository).execute()
+    await usecase.CreateUserAdminUseCase(user_repository, schema.PostUserSchema).execute()
     return {"message": "Admin user created"}

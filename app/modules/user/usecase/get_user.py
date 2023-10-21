@@ -2,8 +2,8 @@ from pydantic import BaseModel
 
 from app.exceptions.usecase import UseCaseException
 from app.interfaces.repository import IRepository
-from ..enums import UserEnum
 
+from ..enums import UserEnum
 
 
 class GetUserUseCase:

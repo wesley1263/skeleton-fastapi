@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -8,8 +9,8 @@ class User(BaseModel):
     name: str
     email: str
     password: str
-    created_at: datetime
-    updated_at: datetime
+    created_at: Optional[datetime]
+    updated_at: Optional[datetime]
     is_active: bool = True
 
     class Config:

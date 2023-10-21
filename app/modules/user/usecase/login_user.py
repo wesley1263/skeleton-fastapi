@@ -13,12 +13,12 @@ P = TypeVar("P")
 
 class LoginUseCase(BaseUseCase):
     def __init__(
-            self,
-            payload: BaseModel,
-            repository: IRepository,
-            schema: BaseModel,
-            authorize: T,
-            hash_pass: P,
+        self,
+        payload: BaseModel,
+        repository: IRepository,
+        schema: BaseModel,
+        authorize: T,
+        hash_pass: P,
     ):
         super().__init__(payload, repository, schema)
         self._authorize = authorize
@@ -32,7 +32,9 @@ class LoginUseCase(BaseUseCase):
         }
 
     async def execute(self):
-        user = await self._validate_db(UserEnum.USER_NOT_FOUND.value, email=self._payload.email)
+        user = await self._validate_db(
+            UserEnum.USER_NOT_FOUND.value, email=self._payload.email
+        )
         if not self._hash_pass.verify(self._payload.password, user.password):
             raise UseCaseException(UserEnum.INVALID_PASSWORD.value, 400)
         user_serialized = await self._serializer(user)
