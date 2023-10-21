@@ -3,7 +3,7 @@ from typing import List, Optional
 
 from loguru import logger
 from pydantic import BaseModel
-from tortoise.exceptions import BaseORMException
+from tortoise.exceptions import OperationalError
 
 from ..interfaces.retrieve_all_repository import IRetrieveAllRepository
 from .base_repository import BaseRepository
@@ -16,6 +16,6 @@ class RetrieveAllRepository(BaseRepository, IRetrieveAllRepository, ABC):
             if not _result:
                 return []
             return [self._model.from_orm(entity) for entity in _result]
-        except BaseORMException as err:
+        except OperationalError as err:
             logger.critical(f"Error when try retrieve list from entity: {str(err)}")
             return []
