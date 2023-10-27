@@ -15,4 +15,6 @@ class GetUsersUseCase:
 
     async def execute(self):
         users = await self._repository.get_all()
+        if not len(users):
+            return []
         return [await self._serializer(user) for user in users]

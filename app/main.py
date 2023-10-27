@@ -12,25 +12,13 @@ init_middlewares(app)
 
 
 @app.on_event("startup")
-async def startup_db():
+async def startup_app():
     logger.info("Starting up database...")
     await connect_to_database()
-
-
-@app.on_event("startup")
-async def startup_routers():
     logger.info("Starting up routers...")
     await init_routers(app)
-
-
-@app.on_event("startup")
-async def startup_jwt():
     logger.info("Starting up JWT...")
     await init_jwt()
-
-
-@app.on_event("startup")
-async def startup_exception_jwt():
     logger.info("Starting up exceptions JWT...")
     await exception_jwt(app)
 

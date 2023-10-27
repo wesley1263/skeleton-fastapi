@@ -18,15 +18,15 @@ class BaseUseCase(ABC):
         self._schema = schema
 
     async def _validate_db(self, detail_message: str, **kwargs):
-        model = await self._repository.get_one_by(**kwargs)
-        if not model:
+        _domain, _ = await self._repository.get_one_by(**kwargs)
+        if not _domain:
             raise UseCaseException(detail_message, 404)
-        return model
+        return _domain
 
     async def _already_exists_db(self, detail_message: str, **kwargs):
         try:
-            model = await self._repository.get_one_by(**kwargs)
-            if model:
+            _domain, _ = await self._repository.get_one_by(**kwargs)
+            if _domain:
                 raise UseCaseException(detail_message, 400)
         except Exception as err:
             raise UseCaseException(str(err), 500)

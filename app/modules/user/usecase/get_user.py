@@ -13,10 +13,10 @@ class GetUserUseCase:
         self._schema = schema
 
     async def _validate(self):
-        user = await self._repository.get_by_id(self._id)
-        if not user:
+        _user = await self._repository.get_by_id(self._id)
+        if not _user:
             raise UseCaseException(UserEnum.USER_NOT_FOUND.value, 404)
-        return user
+        return _user
 
     async def execute(self) -> BaseModel:
         user = await self._validate()

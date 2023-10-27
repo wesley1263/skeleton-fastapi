@@ -19,7 +19,7 @@ class UpdateUserUseCase(BaseUseCase):
         self._id = id
 
     async def _validate_email(self):
-        user = await self._repository.get_one_by(email=self._payload.email)
+        user, _ = await self._repository.get_one_by(email=self._payload.email)
         if user and user.id != self._id:
             raise UseCaseException(MessagesEnum.EMAIL_ALREADY_EXIST.value, 400)
 

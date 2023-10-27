@@ -32,7 +32,7 @@ class LoginUseCase(BaseUseCase):
         }
 
     async def execute(self):
-        user = await self._validate_db(
+        user, _ = await self._validate_db(
             UserEnum.USER_NOT_FOUND.value, email=self._payload.email
         )
         if not self._hash_pass.verify(self._payload.password, user.password):

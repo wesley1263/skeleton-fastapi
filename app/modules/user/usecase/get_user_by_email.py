@@ -12,7 +12,7 @@ class GetUserByEmailUseCase:
         self._schema = schema
 
     async def _validate(self):
-        user = await self._repository.get_one_by(email=self._email)
+        user, _ = await self._repository.get_one_by(email=self._email)
         if not user:
             raise UseCaseException(MessagesEnum.USER_NOT_FOUND.value, 404)
         return user

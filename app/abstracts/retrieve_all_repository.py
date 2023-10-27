@@ -10,7 +10,7 @@ from .base_repository import BaseRepository
 
 
 class RetrieveAllRepository(BaseRepository, IRetrieveAllRepository, ABC):
-    async def get_all(self) -> List[Optional[BaseModel]]:
+    async def get_all(self) -> (List[BaseModel], []):
         try:
             _result = await self._entity.all()
             if not _result:

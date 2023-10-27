@@ -17,9 +17,9 @@ class UserRepository(
 
     async def get_by_id(self, id: int) -> [BaseModel, None]:
         try:
-            _result = await self.get_one_by(id=id)
+            _result,  _ = await self.get_one_by(id=id)
             if not _result:
                 return None
-            return self._model.from_orm(_result)
+            return _result
         except BaseORMException:
             return None

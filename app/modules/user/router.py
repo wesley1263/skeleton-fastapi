@@ -3,6 +3,8 @@ from fastapi_jwt_auth import AuthJWT
 from fastapi_pagination import Page, paginate
 from fastapi_pagination.utils import disable_installed_extensions_check
 from passlib.hash import pbkdf2_sha256
+from tortoise.exceptions import OperationalError
+from tortoise.transactions import in_transaction
 
 from app.config.settings import get_settings
 from app.exceptions.usecase import UseCaseException
@@ -59,11 +61,16 @@ async def get_user(id: int):
 )
 async def post_user(payload: schema.PostUserSchema):
     try:
-        return await usecase.CreateUserUseCase(
-            payload, user_repository, schema.GetUserSchema
-        ).execute()
+        async with in_transaction():
+            return await usecase.CreateUserUseCase(
+                payload, user_repository, schema.GetUserSchema
+            ).execute()
     except UseCaseException as err:
         raise HTTPException(detail=str(err), status_code=err.status_code)
+    except OperationalError:
+        raise HTTPException(
+            detail="Error when try create user", status_code=500
+        )
 
 
 @router.get(
@@ -91,11 +98,16 @@ async def get_user_by_email(email: str):
 )
 async def put_user(id: int, payload: schema.UpdateUserSchema):
     try:
-        return await usecase.UpdateUserUseCase(
-            payload, id, user_repository, schema.GetUserSchema
-        ).execute()
+        async with in_transaction():
+            return await usecase.UpdateUserUseCase(
+                payload, id, user_repository, schema.GetUserSchema
+            ).execute()
     except UseCaseException as err:
         raise HTTPException(detail=str(err), status_code=err.status_code)
+    except OperationalError:
+        raise HTTPException(
+            detail="Error when try update user", status_code=500
+        )
 
 
 @router.post(
@@ -111,6 +123,10 @@ async def login(payload: schema.LoginUserSchema, authorize: AuthJWT = Depends())
         ).execute()
     except UseCaseException as err:
         raise HTTPException(detail=str(err), status_code=err.status_code)
+    except OperationalError:
+        raise HTTPException(
+            detail="Error when try create user", status_code=500
+        )
 
 
 @router.post(
@@ -119,7 +135,12 @@ async def login(payload: schema.LoginUserSchema, authorize: AuthJWT = Depends())
     description="This router is to create admin user",
 )
 async def create_admim():
-    await usecase.CreateUserAdminUseCase(
-        user_repository, schema.PostUserSchema
-    ).execute()
-    return {"message": "Admin user created"}
+    try:
+        await usecase.CreateUserAdminUseCase(
+            user_repository, schema.PostUserSchema
+        ).execute()
+        return {"message": "Admin user created"}
+    except OperationalError:
+        raise HTTPException(
+            detail="Error when try create admin", status_code=500
+        )

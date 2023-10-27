@@ -19,7 +19,9 @@ def test_user_entity_should_return_valid_fields_when_valid_data_is_passed(
     assert isinstance(user.name, str)
     assert isinstance(user.email, str)
     assert isinstance(user.password, str)
+    assert isinstance(user.is_active, bool)
 
     assert user.name == user_fake_dict["name"]
     assert user.email == user_fake_dict["email"]
     assert user.password == user_fake_dict["password"]
+    assert user.__str__() == user.name
