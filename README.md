@@ -39,7 +39,7 @@ To get started, follow the installation and configuration instructions provided 
 ## How to work
 
 ### Clone this repository
-`git clone git@bitbucket.org:undersoftware/skeleton-fastapi.git`
+`git clone git@github.com:wesley1263/skeleton-fastapi.git`
 
 ### Access project directory in terminal
 `cd app_name`
