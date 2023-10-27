@@ -28,6 +28,7 @@ create_module:
 	&& mkdir ./tests/$${MODULE} \
 	&& echo '' > ./app/modules/$${MODULE}/__init__.py \
 	&& echo '' > ./app/modules/$${MODULE}/router.py \
+	&& echo '' > ./app/modules/$${MODULE}/entity.py \
 	&& echo '' > ./app/modules/$${MODULE}/model.py \
 	&& echo '' > ./app/modules/$${MODULE}/repository.py \
 	&& echo '' > ./app/modules/$${MODULE}/schema.py \
@@ -35,6 +36,7 @@ create_module:
 	&& echo '' > ./tests/$${MODULE}/__init__.py \
 	&& echo '' > ./tests/$${MODULE}/conftest.py \
 	&& echo '' > ./tests/$${MODULE}/test_model.py \
+	&& echo '' > ./tests/$${MODULE}/test_entity.py \
 	&& echo '' > ./tests/$${MODULE}/test_router.py \
 	&& echo '' > ./tests/$${MODULE}/test_schema.py \
 	&& echo "$(COLOUR_GREEN)#### MODULE $(MODULE) HAS BEEN CREATED ####$(COLOUR_END)" \
