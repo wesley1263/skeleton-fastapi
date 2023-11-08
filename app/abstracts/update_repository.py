@@ -8,6 +8,16 @@ from .base_repository import BaseRepository
 
 
 class UpdateRepository(BaseRepository, ICreateRepository, ABC):
+    """
+
+    UpdateRepository Class
+
+    This class represents a repository for updating entities in a database. It extends the BaseRepository class and implements the ICreateRepository interface.
+
+    Methods:
+    - update(payload: dict, id: int) -> bool: Updates an entity in the database with the specified payload and ID.
+
+    """
     async def update(self, payload: dict, id: int) -> bool:
         try:
             async with in_transaction() as conn:

@@ -10,6 +10,18 @@ from .base_repository import BaseRepository
 
 
 class RetrieveAllRepository(BaseRepository, IRetrieveAllRepository, ABC):
+    """
+
+    This class is an implementation of the `IRetrieveAllRepository` interface. It inherits from the `BaseRepository` class.
+
+    Methods:
+        - get_all(): Retrieves all entities from the database.
+
+    Attributes:
+        - _entity: Database entity to retrieve data from.
+        - _model: Pydantic model to convert retrieved entities into.
+
+    """
     async def get_all(self) -> (List[BaseModel], []):
         try:
             _result = await self._entity.all()

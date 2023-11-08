@@ -7,29 +7,29 @@ from app.interfaces.crud_repository import ICRUDRepository
 
 
 class BaseUseCase(ABC):
+    """
+
+    BaseUseCase
+
+    Abstract base class for implementing use cases in the application.
+
+    Attributes:
+        _payload (BaseModel): The payload that the use case will operate on.
+        _repository (ICRUDRepository): The repository interface used for data operations.
+        _schema (BaseModel): The schema that defines the data structure of the payload.
+
+    Methods:
+        execute: Abstract method that needs to be implemented by subclasses.
+    """
     def __init__(
-        self,
-        payload: BaseModel,
-        repository: ICRUDRepository,
-        schema: BaseModel = None,
+            self,
+            payload: BaseModel,
+            repository: ICRUDRepository,
+            schema: BaseModel = None,
     ):
         self._payload = payload
         self._repository = repository
         self._schema = schema
-
-    async def _validate_db(self, detail_message: str, **kwargs):
-        _domain, _ = await self._repository.get_one_by(**kwargs)
-        if not _domain:
-            raise UseCaseException(detail_message, 404)
-        return _domain
-
-    async def _already_exists_db(self, detail_message: str, **kwargs):
-        try:
-            _domain, _ = await self._repository.get_one_by(**kwargs)
-            if _domain:
-                raise UseCaseException(detail_message, 400)
-        except Exception as err:
-            raise UseCaseException(str(err), 500)
 
     @abstractmethod
     async def execute(self):
