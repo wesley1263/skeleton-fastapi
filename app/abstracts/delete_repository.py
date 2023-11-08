@@ -8,6 +8,14 @@ from app.interfaces.delete_repository import IDeleteRepository
 
 
 class DeleteRepository(BaseRepository, IDeleteRepository, ABC):
+    """
+
+    This class `DeleteRepository` is a concrete implementation of the `BaseRepository` and `IDeleteRepository` interfaces. It provides the functionality to delete an entity from the database.
+
+    Methods:
+        - `delete`: Deletes an entity from the database based on the provided ID.
+
+    """
     async def delete(self, id: int) -> bool:
         try:
             async with in_transaction() as conn:
