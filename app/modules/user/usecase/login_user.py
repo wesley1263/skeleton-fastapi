@@ -13,12 +13,12 @@ P = TypeVar("P")
 
 class LoginUseCase(BaseUseCase):
     def __init__(
-        self,
-        payload: BaseModel,
-        repository: ICRUDRepository,
-        schema: BaseModel,
-        authorize: T,
-        hash_pass: P,
+            self,
+            payload: BaseModel,
+            repository: ICRUDRepository,
+            schema: BaseModel,
+            authorize: T,
+            hash_pass: P,
     ):
         super().__init__(payload, repository, schema)
         self._authorize = authorize
@@ -31,11 +31,18 @@ class LoginUseCase(BaseUseCase):
             "access_token": access_token,
         }
 
-    async def execute(self):
-        user, _ = await self._validate_db(
-            UserEnum.USER_NOT_FOUND.value, email=self._payload.email
+    async def _validate_user(self):
+        user, _ = await self._repository.get_one_by(
+            email=self._payload.email
         )
+        if not user:
+            raise UseCaseException(UserEnum.USER_NOT_FOUND.value, 404)
+        return user
+
+    async def execute(self):
+        user = await self._validate_user()
         if not self._hash_pass.verify(self._payload.password, user.password):
             raise UseCaseException(UserEnum.INVALID_PASSWORD.value, 400)
         user_serialized = await self._serializer(user)
         return self._schema(**user_serialized)
+

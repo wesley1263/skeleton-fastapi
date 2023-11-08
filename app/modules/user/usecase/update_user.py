@@ -9,11 +9,11 @@ from app.modules.core.messages_enum import MessagesEnum
 
 class UpdateUserUseCase(BaseUseCase):
     def __init__(
-        self,
-        payload: BaseModel,
-        id: int,
-        repository: ICRUDRepository,
-        schema: BaseModel,
+            self,
+            payload: BaseModel,
+            id: int,
+            repository: ICRUDRepository,
+            schema: BaseModel,
     ):
         super().__init__(payload, repository, schema)
         self._id = id
@@ -23,10 +23,13 @@ class UpdateUserUseCase(BaseUseCase):
         if user and user.id != self._id:
             raise UseCaseException(MessagesEnum.EMAIL_ALREADY_EXIST.value, 400)
 
+    async def _validate_id(self):
+        if not await self._repository.get_one_by(id=self._id):
+            raise UseCaseException(MessagesEnum.USER_NOT_FOUND.value, 400)
+
     async def execute(self):
-        await self._validate_db(
-            detail_message=MessagesEnum.USER_NOT_FOUND.value, id=self._id
-        )
+        await self._validate_id()
+
         await self._validate_email()
 
         user_payload = self._payload.dict()
