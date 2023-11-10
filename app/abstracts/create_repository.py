@@ -30,6 +30,7 @@ class CreateRepository(BaseRepository, ICreateRepository, ABC):
             Returns a tuple containing the created model object and entity object, or None if creation fails.
             Logs critical errors if encountered during the creation process.
     """
+
     async def create(self, payload: dict) -> ([BaseModel, Model], [None, None]):
         try:
             async with in_transaction() as conn:

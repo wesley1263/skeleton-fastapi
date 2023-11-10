@@ -17,7 +17,7 @@ class UserRepository(
 
     async def get_by_id(self, id: int) -> [BaseModel, None]:
         try:
-            _result,  _ = await self.get_one_by(id=id)
+            _result, _ = await self.get_one_by(id=id)
             if not _result:
                 return None
             return _result

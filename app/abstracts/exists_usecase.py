@@ -1,11 +1,11 @@
 from abc import ABC
 
-from .base_usecase import BaseUseCase
 from ..exceptions.usecase import UseCaseException
+from .base_usecase import BaseUseCase
 
 
 class ExistsUsecase(BaseUseCase, ABC):
-    """ This class is a base class for usecases that check if an entity exists in the database."""
+    """This class is a base class for usecases that check if an entity exists in the database."""
 
     async def _already_exists(self, detail_message: str, **kwargs):
         """

@@ -2,7 +2,6 @@ from abc import ABC, abstractmethod
 
 from pydantic import BaseModel
 
-from app.exceptions.usecase import UseCaseException
 from app.interfaces.crud_repository import ICRUDRepository
 
 
@@ -21,11 +20,12 @@ class BaseUseCase(ABC):
     Methods:
         execute: Abstract method that needs to be implemented by subclasses.
     """
+
     def __init__(
-            self,
-            payload: BaseModel,
-            repository: ICRUDRepository,
-            schema: BaseModel = None,
+        self,
+        payload: BaseModel,
+        repository: ICRUDRepository,
+        schema: BaseModel = None,
     ):
         self._payload = payload
         self._repository = repository

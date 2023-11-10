@@ -3,6 +3,7 @@ from abc import ABC
 from loguru import logger
 from tortoise.exceptions import OperationalError
 from tortoise.transactions import in_transaction
+
 from app.abstracts.base_repository import BaseRepository
 from app.interfaces.delete_repository import IDeleteRepository
 
@@ -16,6 +17,7 @@ class DeleteRepository(BaseRepository, IDeleteRepository, ABC):
         - `delete`: Deletes an entity from the database based on the provided ID.
 
     """
+
     async def delete(self, id: int) -> bool:
         try:
             async with in_transaction() as conn:

@@ -12,7 +12,7 @@ from ..enums import UserEnum
 
 class CreateUserUseCase(BaseUseCase):
     def __init__(
-            self, payload: BaseModel, repository: ICRUDRepository, schema: BaseModel
+        self, payload: BaseModel, repository: ICRUDRepository, schema: BaseModel
     ):
         super().__init__(payload, repository, schema)
 

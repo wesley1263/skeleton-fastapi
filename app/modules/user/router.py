@@ -68,9 +68,7 @@ async def post_user(payload: schema.PostUserSchema):
     except UseCaseException as err:
         raise HTTPException(detail=str(err), status_code=err.status_code)
     except OperationalError:
-        raise HTTPException(
-            detail="Error when try create user", status_code=500
-        )
+        raise HTTPException(detail="Error when try create user", status_code=500)
 
 
 @router.get(
@@ -105,9 +103,7 @@ async def put_user(id: int, payload: schema.UpdateUserSchema):
     except UseCaseException as err:
         raise HTTPException(detail=str(err), status_code=err.status_code)
     except OperationalError:
-        raise HTTPException(
-            detail="Error when try update user", status_code=500
-        )
+        raise HTTPException(detail="Error when try update user", status_code=500)
 
 
 @router.post(
@@ -124,9 +120,7 @@ async def login(payload: schema.LoginUserSchema, authorize: AuthJWT = Depends())
     except UseCaseException as err:
         raise HTTPException(detail=str(err), status_code=err.status_code)
     except OperationalError:
-        raise HTTPException(
-            detail="Error when try create user", status_code=500
-        )
+        raise HTTPException(detail="Error when try create user", status_code=500)
 
 
 @router.post(
@@ -141,6 +135,4 @@ async def create_admim():
         ).execute()
         return {"message": "Admin user created"}
     except OperationalError:
-        raise HTTPException(
-            detail="Error when try create admin", status_code=500
-        )
+        raise HTTPException(detail="Error when try create admin", status_code=500)

@@ -26,6 +26,7 @@ class RetrieveOneByRepository(BaseRepository, IRetrieveOneByRepository, ABC):
 
                 - If an error occurs during the retrieval process, the method will log a critical message and return `(None, None)`.
     """
+
     async def get_one_by(self, **kwargs) -> [(BaseModel, Model), (None, None)]:
         try:
             _entity_object = await self._entity.get_or_none(**kwargs)

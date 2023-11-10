@@ -9,11 +9,11 @@ from app.modules.core.messages_enum import MessagesEnum
 
 class UpdateUserUseCase(BaseUseCase):
     def __init__(
-            self,
-            payload: BaseModel,
-            id: int,
-            repository: ICRUDRepository,
-            schema: BaseModel,
+        self,
+        payload: BaseModel,
+        id: int,
+        repository: ICRUDRepository,
+        schema: BaseModel,
     ):
         super().__init__(payload, repository, schema)
         self._id = id
