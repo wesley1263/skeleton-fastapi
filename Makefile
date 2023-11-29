@@ -19,6 +19,10 @@ formatter:
 	@flake8
 	@autoflake --remove-all-unused-imports --remove-unused-variables --recursive --in-place --ignore-init-module-imports .
 
+security:
+	@safety check
+	@bandit -r .
+
 testing:
 	@pytest
 
