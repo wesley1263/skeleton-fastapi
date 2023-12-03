@@ -11,7 +11,7 @@ settings = get_settings()
 
 log = logging.getLogger("uvicorn")
 
-""" This config is for generate migrations.bkp by aerich """
+""" This config is for generate migrations by aerich """
 TORTOISE_ORM = {
     "connections": {"default": settings.DB_URL},
     "apps": {
@@ -23,27 +23,12 @@ TORTOISE_ORM = {
 }
 
 
-def init_db(app: FastAPI):
-    """This function is to configuration database credentials"""
-    register_tortoise(
-        app=app,
-        db_url=settings.DB_URL if not settings.TESTING else settings.DB_TEST_URL,
-        generate_schemas=settings.GENERATE_SCHEMAS,
-        modules={"models": settings.ENTITIES},
-    )
-
-
 async def connect_to_database() -> None:
     log.info("Initialize Tortoise...")
     await Tortoise.init(
         db_url=settings.DB_URL,
         modules={"models": settings.ENTITIES},
     )
-
-
-async def run_migrate():
-    result = os.popen("aerich upgrade").read()
-    log.info(f"Result migrate: {result}")
 
 
 async def close_connection_database() -> None:
