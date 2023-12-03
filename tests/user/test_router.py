@@ -1,18 +1,20 @@
 import pytest
+from faker import Factory
 from fastapi import status
 
+faker = Factory.create("pt_BR")
 END_POINT = "/users/"
 
 
 def test_router_get_users_should_be_return_200_when_get_all_users(
-    test_app_with_db, access_token
+        test_app_with_db, access_token
 ):
     response = test_app_with_db.get(END_POINT, headers=access_token)
     assert response.status_code == status.HTTP_200_OK
 
 
 def test_router_user_create_should_be_return_201_when_post_user(
-    test_app_with_db, user_post_fake_dict, access_token
+        test_app_with_db, user_post_fake_dict, access_token
 ):
     response = test_app_with_db.post(
         END_POINT, json=user_post_fake_dict, headers=access_token
@@ -21,7 +23,7 @@ def test_router_user_create_should_be_return_201_when_post_user(
 
 
 def test_router_user_create_should_be_return_400_when_post_user(
-    test_app_with_db, user_post_fake_dict, access_token
+        test_app_with_db, user_post_fake_dict, access_token
 ):
     response = test_app_with_db.post(
         END_POINT, json=user_post_fake_dict, headers=access_token
@@ -31,7 +33,7 @@ def test_router_user_create_should_be_return_400_when_post_user(
 
 @pytest.fixture
 def user_created(test_app_with_db, user_post_fake_dict, access_token):
-    user_post_fake_dict["email"] = "email2@example.com"
+    user_post_fake_dict["email"] = faker.email()
     created = test_app_with_db.post(
         END_POINT, json=user_post_fake_dict, headers=access_token
     )
@@ -39,7 +41,7 @@ def user_created(test_app_with_db, user_post_fake_dict, access_token):
 
 
 def test_router_get_user_should_be_return_200_when_post_user(
-    test_app_with_db, user_created, access_token
+        test_app_with_db, user_created, access_token
 ):
     response = test_app_with_db.get(
         f"{END_POINT}{user_created.get('id')}", headers=access_token
@@ -49,7 +51,7 @@ def test_router_get_user_should_be_return_200_when_post_user(
 
 
 def test_router_get_user_by_email_should_be_return_200_when_post_user(
-    test_app_with_db, user_created, access_token
+        test_app_with_db, user_created, access_token
 ):
     users = test_app_with_db.get(END_POINT, headers=access_token)
     email = users.json().get("items")[0].get("email")
@@ -60,7 +62,7 @@ def test_router_get_user_by_email_should_be_return_200_when_post_user(
 
 
 def test_router_put_user_should_be_return_200_when_payload_valid(
-    test_app_with_db, user_put_fake_dict, access_token
+        test_app_with_db, user_put_fake_dict, access_token
 ):
     users = test_app_with_db.get(END_POINT, headers=access_token)
     payload = users.json().get("items")[0]
@@ -77,7 +79,7 @@ def test_router_put_user_should_be_return_200_when_payload_valid(
 
 
 def test_login_user_should_be_return_400_when_payload_invalid(
-    test_app_with_db, user_login_fake_dict, access_token
+        test_app_with_db, user_login_fake_dict, access_token
 ):
     response = test_app_with_db.post(
         f"{END_POINT}login", json=user_login_fake_dict, headers=access_token
