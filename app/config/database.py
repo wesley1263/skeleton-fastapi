@@ -5,6 +5,10 @@ from .settings import get_settings
 
 settings = get_settings()
 
+
+log = logging.getLogger("uvicorn")
+
+
 """ This config is for generate migrations by aerich """
 TORTOISE_ORM = {
     "connections": {"default": settings.DB_URL if not settings.TESTING else settings.DB_TEST_URL},
@@ -23,6 +27,7 @@ async def connect_to_database() -> None:
     if settings.TESTING:
         logger.info("Creating test database...")
         await Tortoise.generate_schemas()
+
 
 
 async def close_connection_database() -> None:
