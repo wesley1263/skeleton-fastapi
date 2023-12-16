@@ -1,7 +1,7 @@
 import httpx
 from fastapi import status
 
-from app.adapters.httpx_adapter import HttpxAdapter
+from src.adapters.httpx_adapter import HttpxAdapter
 
 URL_GOOGLE = "https://www.google.com"
 

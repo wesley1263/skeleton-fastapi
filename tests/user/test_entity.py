@@ -1,6 +1,6 @@
 from tortoise import Model
 
-from app.modules.user.entity import UserEntity
+from src.modules.user.entity import UserEntity
 
 
 def test_user_entity_should_return_valid_instance_when_valid_data_is_passed(

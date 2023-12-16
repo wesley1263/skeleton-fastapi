@@ -1,8 +1,8 @@
 from pydantic import BaseModel
 
-from app.exceptions.usecase import UseCaseException
-from app.interfaces.crud_repository import ICRUDRepository
-from app.modules.core.messages_enum import MessagesEnum
+from src.exceptions.usecase import UseCaseException
+from src.interfaces.crud_repository import ICRUDRepository
+from src.modules.core.messages_enum import MessagesEnum
 
 
 class GetUserByEmailUseCase:

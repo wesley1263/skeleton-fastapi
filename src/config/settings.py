@@ -30,7 +30,7 @@ class Setting(BaseSettings):
     ]
     ENTITIES: List = [
         "aerich.models",
-        "app.modules.user.entity",
+        "src.modules.user.entity",
     ]
 
 

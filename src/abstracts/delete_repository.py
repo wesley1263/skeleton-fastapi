@@ -4,8 +4,8 @@ from loguru import logger
 from tortoise.exceptions import OperationalError
 from tortoise.transactions import in_transaction
 
-from app.abstracts.base_repository import BaseRepository
-from app.interfaces.delete_repository import IDeleteRepository
+from src.abstracts.base_repository import BaseRepository
+from src.interfaces.delete_repository import IDeleteRepository
 
 
 class DeleteRepository(BaseRepository, IDeleteRepository, ABC):

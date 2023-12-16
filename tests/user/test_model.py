@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from app.modules.user.model import User
+from src.modules.user.model import User
 
 
 def test_user_model_should_return_valid_instance_when_valid_data_is_passed(

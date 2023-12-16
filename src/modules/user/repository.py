@@ -1,12 +1,12 @@
 from pydantic import BaseModel
 from tortoise.exceptions import BaseORMException
 
-from app.abstracts.create_repository import CreateRepository
-from app.abstracts.retrieve_all_repository import RetrieveAllRepository
-from app.abstracts.retrieve_one_by_repository import RetrieveOneByRepository
-from app.abstracts.update_repository import UpdateRepository
-from app.modules.user.entity import UserEntity
-from app.modules.user.model import User
+from src.abstracts.create_repository import CreateRepository
+from src.abstracts.retrieve_all_repository import RetrieveAllRepository
+from src.abstracts.retrieve_one_by_repository import RetrieveOneByRepository
+from src.abstracts.update_repository import UpdateRepository
+from src.modules.user.entity import UserEntity
+from src.modules.user.model import User
 
 
 class UserRepository(

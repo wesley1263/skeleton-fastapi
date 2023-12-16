@@ -7,8 +7,8 @@ from tortoise import Model
 from tortoise.exceptions import OperationalError
 from tortoise.transactions import in_transaction
 
-from app.abstracts.base_repository import BaseRepository
-from app.interfaces.create_repository import ICreateRepository
+from src.abstracts.base_repository import BaseRepository
+from src.interfaces.create_repository import ICreateRepository
 
 
 class CreateRepository(BaseRepository, ICreateRepository, ABC):

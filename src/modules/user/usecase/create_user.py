@@ -3,9 +3,9 @@ from pydantic import BaseModel
 from tortoise.exceptions import OperationalError
 from tortoise.transactions import atomic
 
-from app.abstracts.base_usecase import BaseUseCase
-from app.exceptions.usecase import UseCaseException
-from app.interfaces.crud_repository import ICRUDRepository
+from src.abstracts.base_usecase import BaseUseCase
+from src.exceptions.usecase import UseCaseException
+from src.interfaces.crud_repository import ICRUDRepository
 
 from ..enums import UserEnum
 

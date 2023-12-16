@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 from pydantic import BaseModel
 
-from app.interfaces.crud_repository import ICRUDRepository
+from src.interfaces.crud_repository import ICRUDRepository
 
 
 class BaseUseCase(ABC):

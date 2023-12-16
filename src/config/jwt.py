@@ -5,7 +5,7 @@ from fastapi_jwt_auth import AuthJWT
 from fastapi_jwt_auth.exceptions import AuthJWTException
 from pydantic import BaseSettings
 
-from app.config.settings import get_settings
+from src.config.settings import get_settings
 
 setting = get_settings()
 

@@ -1,7 +1,7 @@
 from fastapi_camelcase import CamelModel
 from pydantic import BaseModel
 
-from app.modules.user import schema
+from src.modules.user import schema
 
 
 def test_user_schema_should_return_valid_instance_when_valid_data_is_passed(

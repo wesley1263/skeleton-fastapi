@@ -3,11 +3,11 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from loguru import logger
 
-from app.config.database import close_connection_database, connect_to_database
-from app.config.jwt import exception_jwt, init_jwt
-from app.config.middlewares import init_middlewares
-from app.config.routers import init_routers
-from app.config.settings import get_settings
+from src.config.database import close_connection_database, connect_to_database
+from src.config.jwt import exception_jwt, init_jwt
+from src.config.middlewares import init_middlewares
+from src.config.routers import init_routers
+from src.config.settings import get_settings
 
 settings = get_settings()
 

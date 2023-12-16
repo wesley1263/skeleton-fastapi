@@ -2,10 +2,10 @@ from typing import TypeVar
 
 from pydantic import BaseModel
 
-from app.abstracts.base_usecase import BaseUseCase
-from app.exceptions.usecase import UseCaseException
-from app.interfaces.crud_repository import ICRUDRepository
-from app.modules.user.enums import UserEnum
+from src.abstracts.base_usecase import BaseUseCase
+from src.exceptions.usecase import UseCaseException
+from src.interfaces.crud_repository import ICRUDRepository
+from src.modules.user.enums import UserEnum
 
 T = TypeVar("T")
 P = TypeVar("P")

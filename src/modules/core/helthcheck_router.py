@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, Request
 
-from app.modules.core.logging import LoggingSkeleton
+from src.modules.core.logging import LoggingSkeleton
 
 router = APIRouter()
 

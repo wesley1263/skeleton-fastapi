@@ -2,7 +2,7 @@ from fastapi import Depends, Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from fastapi_jwt_auth import AuthJWT
 
-from app.config.settings import get_settings
+from src.config.settings import get_settings
 
 settings = get_settings()
 

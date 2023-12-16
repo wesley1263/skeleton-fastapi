@@ -2,8 +2,8 @@ import pytest
 from starlette.testclient import TestClient
 from tortoise.contrib.starlette import register_tortoise
 
-from app.config.settings import get_settings
-from app.main import create_app
+from src.config.settings import get_settings
+from src.main import create_app
 
 setting = get_settings()
 setting.TESTING = True

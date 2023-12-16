@@ -6,12 +6,12 @@ from passlib.hash import pbkdf2_sha256
 from tortoise.exceptions import OperationalError
 from tortoise.transactions import in_transaction
 
-from app.config.settings import get_settings
-from app.exceptions.usecase import UseCaseException
-from app.modules.core.auth_bearer import JWTBearer
-from app.modules.core.logging import LoggingSkeleton
-from app.modules.user import schema, usecase
-from app.modules.user.repository import UserRepository
+from src.config.settings import get_settings
+from src.exceptions.usecase import UseCaseException
+from src.modules.core.auth_bearer import JWTBearer
+from src.modules.core.logging import LoggingSkeleton
+from src.modules.user import schema, usecase
+from src.modules.user.repository import UserRepository
 
 disable_installed_extensions_check()
 

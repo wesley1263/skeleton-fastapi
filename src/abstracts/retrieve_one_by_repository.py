@@ -5,8 +5,8 @@ from pydantic import BaseModel
 from tortoise import Model
 from tortoise.exceptions import OperationalError
 
-from app.abstracts.base_repository import BaseRepository
-from app.interfaces.retrieve_one_by_repository import IRetrieveOneByRepository
+from src.abstracts.base_repository import BaseRepository
+from src.interfaces.retrieve_one_by_repository import IRetrieveOneByRepository
 
 
 class RetrieveOneByRepository(BaseRepository, IRetrieveOneByRepository, ABC):

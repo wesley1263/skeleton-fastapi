@@ -1,8 +1,8 @@
 import httpx
 
-from app.abstracts.adapter_exception import AdapterException
-from app.config.settings import get_settings
-from app.interfaces.request import IRequest
+from src.abstracts.adapter_exception import AdapterException
+from src.config.settings import get_settings
+from src.interfaces.request import IRequest
 
 settings = get_settings()
 

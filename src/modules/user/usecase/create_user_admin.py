@@ -2,8 +2,8 @@ from decouple import config
 from passlib.hash import pbkdf2_sha256
 from pydantic import BaseModel
 
-from app.interfaces.crud_repository import ICRUDRepository
-from app.modules.user.schema import PostUserSchema
+from src.interfaces.crud_repository import ICRUDRepository
+from src.modules.user.schema import PostUserSchema
 
 
 class CreateUserAdminUseCase:

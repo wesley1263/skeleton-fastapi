@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
-from app.exceptions.usecase import UseCaseException
-from app.interfaces.crud_repository import ICRUDRepository
+from src.exceptions.usecase import UseCaseException
+from src.interfaces.crud_repository import ICRUDRepository
 
 from ..enums import UserEnum
 
