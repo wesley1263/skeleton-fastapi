@@ -1,13 +1,12 @@
 from loguru import logger
 from tortoise import Tortoise
+import logging
 
 from .settings import get_settings
 
 settings = get_settings()
 
-
 log = logging.getLogger("uvicorn")
-
 
 """ This config is for generate migrations by aerich """
 TORTOISE_ORM = {
@@ -27,7 +26,6 @@ async def connect_to_database() -> None:
     if settings.TESTING:
         logger.info("Creating test database...")
         await Tortoise.generate_schemas()
-
 
 
 async def close_connection_database() -> None:
